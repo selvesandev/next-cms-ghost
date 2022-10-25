@@ -39,7 +39,8 @@ export default function Index({ cmsData }: IndexProps) {
   if (router.isFallback) return <div>Loading...</div>
 
   const { settings, posts, seoImage, bodyClass } = cmsData
-
+  settings.title = 'Code Tumor';
+ 
   return (
     <>
       <SEO {...{ settings, seoImage }} />
