@@ -33,7 +33,8 @@ export const SiteNav = ({ settings, className, postTitle }: SiteNavProps) => {
   const secondaryNav = site.secondary_navigation && 0 < site.secondary_navigation.length
   const siteLogo = site.logoImage
 
-  const navigation = site.navigation
+  // const navigation = site.navigation
+  const navigation:NavItem[] = [{label: 'Home', url: '/'},{label: 'Blogody', url: 'https://blogody.com'}];
 
   // overwrite navigation if specified in options
   const labels = navigation?.map((item) => item.label)
@@ -46,18 +47,21 @@ export const SiteNav = ({ settings, className, postTitle }: SiteNavProps) => {
     })
   }
 
+
   // add navigation if specified in options
   const urls = navigation?.map((item) => item.url)
-  if (config.addNavigation && config.addNavigation.length > 0) {
-    config.addNavigation.map((item) => urls?.indexOf(item.url) === -1 && navigation?.push(item))
-  }
-
+  // if (config.addNavigation && config.addNavigation.length > 0) {
+  //   config.addNavigation.map((item) => urls?.indexOf(item.url) === -1 && navigation?.push(item))
+  // }
+  console.log(navigation);
   // targetHeight is coming from style .site-nav-logo img
   const targetHeight = 21
   const calcSiteLogoWidth = (image: NextImage, targetHeight: number) => {
     const { width, height } = image.dimensions
     return (targetHeight * width) / height
   }
+
+
 
   return (
     <nav className={className}>
@@ -94,11 +98,11 @@ export const SiteNav = ({ settings, className, postTitle }: SiteNavProps) => {
           <Navigation data={site.secondary_navigation} />
         ) : (
           <div className="social-links">
-            <SocialLinks {...{ siteUrl, site }} />
+            {/* <SocialLinks {...{ siteUrl, site }} /> */}
           </div>
         )}
         <DarkMode {...{ settings }} />
-        {memberSubscriptions && <SubscribeButton {...{ lang: settings.lang }} />}
+        {/* {memberSubscriptions && <SubscribeButton {...{ lang: settings.lang }} />} */}
       </div>
     </nav>
   )
