@@ -46,7 +46,7 @@ export const HeaderIndex = ({ settings }: HeaderIndexProps) => {
                         width: `${calcSiteLogoWidth(siteLogo, targetHeight)}px`,
                       }}
                     >
-                      <Image src={siteLogo.url} alt={title} layout="responsive" quality={imageQuality} {...siteLogo.dimensions} />
+                      {/* <Image src={siteLogo.url} alt={title} layout="responsive" quality={imageQuality} {...siteLogo.dimensions} /> */}
                     </div>
                   </a>
                 </Link>
@@ -61,7 +61,10 @@ export const HeaderIndex = ({ settings }: HeaderIndexProps) => {
                 title
               )}
             </h1>
-            <h2 className="site-description">{site.description}</h2>
+            <h2 className="site-description">
+              {/* {site.description} */}
+              Thoughts, stories, ideas and researches.
+            </h2>
           </div>
         </div>
       </HeaderBackground>

@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { resolve } from 'url'
 
 import { Navigation } from '@components/Navigation'
-import { SocialLinks } from '@components/SocialLinks'
+// import { SocialLinks } from '@components/SocialLinks'
 import { DarkMode } from '@components/DarkMode'
-import { SubscribeButton } from '@components/SubscribeButton'
+// import { SubscribeButton } from '@components/SubscribeButton'
 import { getLang, get } from '@utils/use-lang'
 import { GhostSettings, NavItem, NextImage } from '@lib/ghost'
 
@@ -34,7 +34,12 @@ export const SiteNav = ({ settings, className, postTitle }: SiteNavProps) => {
   const siteLogo = site.logoImage
 
   // const navigation = site.navigation
-  const navigation:NavItem[] = [{label: 'Home', url: '/'},{label: 'Blogody', url: 'https://blogody.com'}];
+  const navigation:NavItem[] = [
+    {label: 'Home', url: '/'},
+    { label: 'Finance and Stocks', url: 'https://blogody.com'}, 
+    { label: 'Programming', url: 'https://blogody.com' },
+    { label: 'Physics', url: 'https://blogody.com' }
+  ];
 
   // overwrite navigation if specified in options
   const labels = navigation?.map((item) => item.label)
