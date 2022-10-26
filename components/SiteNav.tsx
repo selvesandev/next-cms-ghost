@@ -58,7 +58,6 @@ export const SiteNav = ({ settings, className, postTitle }: SiteNavProps) => {
   // if (config.addNavigation && config.addNavigation.length > 0) {
   //   config.addNavigation.map((item) => urls?.indexOf(item.url) === -1 && navigation?.push(item))
   // }
-  console.log(navigation);
   // targetHeight is coming from style .site-nav-logo img
   const targetHeight = 21
   const calcSiteLogoWidth = (image: NextImage, targetHeight: number) => {

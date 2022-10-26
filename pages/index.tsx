@@ -12,6 +12,7 @@ import { getAllPosts, getAllSettings, GhostPostOrPage, GhostPostsOrPages, GhostS
 import { seoImage, ISeoImage } from '@meta/seoImage'
 
 import { BodyClass } from '@helpers/BodyClass'
+import { blogPosts } from '@utils/posts'
 
 /**
  * Main index page (home page)
@@ -38,9 +39,15 @@ export default function Index({ cmsData }: IndexProps) {
   const router = useRouter()
   if (router.isFallback) return <div>Loading...</div>
 
-  const { settings, posts, seoImage, bodyClass } = cmsData
+  let { 
+    settings, 
+    // posts, 
+    seoImage, 
+    bodyClass 
+  } = cmsData
   settings.title = 'Code Tumor';
- 
+  const posts = blogPosts;
+//  console.log(posts);
   return (
     <>
       <SEO {...{ settings, seoImage }} />
@@ -65,14 +72,14 @@ export const getStaticProps: GetStaticProps = async () => {
 
   try {
     settings = await getAllSettings()
-    posts = await getAllPosts()
+    // posts = await getAllPosts()
   } catch (error) {
     throw new Error('Index creation failed.')
   }
 
   const cmsData = {
     settings,
-    posts,
+    // posts,
     seoImage: await seoImage({ siteUrl: settings.processEnv.siteUrl }),
     bodyClass: BodyClass({ isHome: true }),
   }
