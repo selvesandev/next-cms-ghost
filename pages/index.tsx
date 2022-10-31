@@ -47,7 +47,7 @@ export default function Index({ cmsData }: IndexProps) {
   } = cmsData
   settings.title = 'Code Tumor';
   const posts = blogPosts;
-//  console.log(posts);
+// console.log(posts);
   return (
     <>
       <SEO {...{ settings, seoImage }} />
@@ -66,7 +66,7 @@ export default function Index({ cmsData }: IndexProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   let settings
-  let posts: GhostPostsOrPages | []
+  // let posts: GhostPostsOrPages | []
 
   console.time('Index - getStaticProps')
 

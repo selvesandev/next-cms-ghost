@@ -3,7 +3,8 @@ import { GhostPostsOrPages, GhostSettings } from '@lib/ghost'
 
 interface PostViewProps {
   settings: GhostSettings
-  posts: GhostPostsOrPages
+  // posts:GhostPostsOrPages
+  posts: any
   isHome?: boolean
 }
 

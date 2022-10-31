@@ -21,9 +21,7 @@ export interface NavItem {
   label: string
 }
 
-interface BrowseResults<T> extends Array<T> {
-  meta: { pagination: Pagination }
-}
+
 
 export interface GhostSettings extends SettingsResponse {
   processEnv: ProcessEnvProps
@@ -47,7 +45,26 @@ export interface GhostPostOrPage extends PostOrPage {
   toc?: IToC[] | null
 }
 
+interface BrowseResults<T> extends Array<T> {
+  meta: { pagination: Pagination }
+}
+
 export interface GhostPostsOrPages extends BrowseResults<GhostPostOrPage> {}
+
+
+export interface P {
+  id: number;
+  featured?: boolean | undefined;
+}
+
+// interface Y<T> extends Array<T>{
+//   meta: { pagination: Pagination }
+// }
+// export interface Z extends P{}
+// export interface X extends Y<Z>{}
+
+// const a:X = []
+
 
 export interface GhostTags extends BrowseResults<GhostTag> {}
 
@@ -151,8 +168,12 @@ export async function getAllPosts(props?: { limit: number }): Promise<GhostPosts
     filter: excludePostOrPageBySlug(),
     ...(props && { ...props }),
   })
+
+  // BrowseResults<GhostPostOrPage>
   const results = await createNextProfileImagesFromPosts(posts)
-  return await createNextFeatureImages(results)
+  const result =  await createNextFeatureImages(results)
+  console.log(result);
+  return result;
 }
 
 export async function getAllPostSlugs(): Promise<string[]> {
