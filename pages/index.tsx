@@ -50,14 +50,16 @@ export default function Index({ cmsData }: IndexProps) {
 // console.log(posts);
   return (
     <>
-      <SEO {...{ settings, seoImage }} />
+      {/* <SEO {...{ settings, seoImage }} /> */}
       <StickyNavContainer
         throttle={300}
         activeClass="fixed-nav-active"
         render={(sticky) => (
-          <Layout {...{ bodyClass, sticky, settings, isHome: true }} header={<HeaderIndex {...{ settings }} />}>
-            <PostView {...{ settings, posts, isHome: true }} />
-          </Layout>
+          <>
+            <Layout {...{ bodyClass, sticky, settings, isHome: true }} header={<HeaderIndex {...{ settings }} />}>
+              <PostView {...{ settings, posts, isHome: true }} />
+            </Layout>
+          </>
         )}
       />
     </>
@@ -71,16 +73,47 @@ export const getStaticProps: GetStaticProps = async () => {
   console.time('Index - getStaticProps')
 
   try {
-    settings = await getAllSettings()
+    // settings = await getAllSettings()
+    settings = {
+      // processEnv.ts line number 35
+      processEnv: {
+        siteUrl: 'http://localhost:3000',
+        platform: 'linux',
+        gaMeasurementId: '',
+        nextImages: {
+          feature: true,
+          inline: true,
+          quality: 1,
+          source: true
+        },
+        darkMode: {
+          defaultMode: 'dark' || 'light' || null,
+          overrideOS: true
+        }
+      },
+      secondary_navigation: [],
+      iconImage: {
+
+      },
+      logoImage: {
+        url: '',
+        dimensions: {
+          width: 100,
+          height: 100
+        }
+      },
+      coverImage: {}
+    };
     // posts = await getAllPosts()
   } catch (error) {
+    console.log(error,'here...');
     throw new Error('Index creation failed.')
   }
 
   const cmsData = {
     settings,
     // posts,
-    seoImage: await seoImage({ siteUrl: settings.processEnv.siteUrl }),
+    // seoImage: await seoImage({ siteUrl: settings.processEnv.siteUrl }),
     bodyClass: BodyClass({ isHome: true }),
   }
 
