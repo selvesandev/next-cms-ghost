@@ -37,7 +37,7 @@ export interface ProcessEnvProps {
   platform: string
   gaMeasurementId: string
   darkMode: {
-    defaultMode: 'dark',//'dart' || 'light' || null,
+    defaultMode: appConfig.DarkMode
     overrideOS: boolean
   }
   nextImages: {
