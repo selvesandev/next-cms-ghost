@@ -48,134 +48,177 @@ const PostOrPageIndex = ({ cmsData }: PostOrPageProps) => {
   const router = useRouter()
   if (router.isFallback) return <div>Loading...</div>
 
-  const { isPost, contactPage } = cmsData
-  if (isPost) {
-    return <Post {...{ cmsData }} />
-  } else if (!!contactPage) {
-    const { contactPage, previewPosts, settings, seoImage, bodyClass } = cmsData
-    return <Contact cmsData={{ page: contactPage, previewPosts, settings, seoImage, bodyClass }} />
-  } else {
-    return <Page cmsData={cmsData} />
-  }
+  // const { isPost, contactPage } = cmsData
+  return <>Check..</>
+  // if (isPost) {
+  //   return <Post {...{ cmsData }} />
+  // } else if (!!contactPage) {
+  //   const { contactPage, previewPosts, settings, seoImage, bodyClass } = cmsData
+  //   return <Contact cmsData={{ page: contactPage, previewPosts, settings, seoImage, bodyClass }} />
+  // } else {
+  //   return <Page cmsData={cmsData} />
+  // }
 }
 
 export default PostOrPageIndex
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  if (!(params && params.slug && Array.isArray(params.slug))) throw Error('getStaticProps: wrong parameters.')
-  const [slug] = params.slug.reverse()
-
-  console.time('Post - getStaticProps')
-
-  const settings = await getAllSettings()
-
-  let post: GhostPostOrPage | null = null
-  let page: GhostPostOrPage | null = null
-  let contactPage: ContactPage | null = null
-
-  post = await getPostBySlug(slug)
-  const isPost = !!post
-  if (!isPost) {
-    page = await getPageBySlug(slug)
-  } else if (post?.primary_tag) {
-    const primaryTag = await getTagBySlug(post?.primary_tag.slug)
-    post.primary_tag = primaryTag
-  }
-
-  // Add custom contact page
-  let isContactPage = false
-  if (processEnv.contactPage) {
-    contactPage = { ...defaultPage, ...customPage }
-    isContactPage = contactPage?.slug === slug
-    if (!isContactPage) contactPage = null
-
-    const url = contactPage?.feature_image
-    if (!contactPage?.featureImage && contactPage && url) {
-      const dimensions = await imageDimensions(url)
-      if (dimensions) contactPage.featureImage = { url, dimensions }
-    }
-  }
-
-  if (!post && !page && !isContactPage) {
-    return {
-      notFound: true,
-    }
-  }
-
-  let previewPosts: GhostPostsOrPages | never[] = []
-  let prevPost: GhostPostOrPage | null = null
-  let nextPost: GhostPostOrPage | null = null
-
-  if (isContactPage) {
-    previewPosts = await getAllPosts({ limit: 3 })
-  } else if (isPost && post?.id && post?.slug) {
-    const tagSlug = post?.primary_tag?.slug
-    previewPosts = (tagSlug && (await getPostsByTag(tagSlug, 3, post?.id))) || []
-
-    const postSlugs = await getAllPostSlugs()
-    const index = postSlugs.indexOf(post?.slug)
-    const prevSlug = index > 0 ? postSlugs[index - 1] : null
-    const nextSlug = index < postSlugs.length - 1 ? postSlugs[index + 1] : null
-
-    prevPost = (prevSlug && (await getPostBySlug(prevSlug))) || null
-    nextPost = (nextSlug && (await getPostBySlug(nextSlug))) || null
-  }
-
-  const siteUrl = settings.processEnv.siteUrl
-  const imageUrl = (post || contactPage || page)?.feature_image || undefined
-  const image = await seoImage({ siteUrl, imageUrl })
-
-  const tags = (contactPage && contactPage.tags) || (page && page.tags) || undefined
-
-  console.timeEnd('Post - getStaticProps')
-
+  console.log('getStaticProps');
   return {
-    props: {
-      cmsData: {
-        settings,
-        post,
-        page,
-        contactPage,
-        isPost,
-        seoImage: image,
-        previewPosts,
-        prevPost,
-        nextPost,
-        bodyClass: BodyClass({ isPost, page: contactPage || page || undefined, tags }),
-      },
-    },
-    ...(processEnv.isr.enable && { revalidate: processEnv.isr.revalidate }), // re-generate at most once every revalidate second
+    props: {}
   }
+  // if (!(params && params.slug && Array.isArray(params.slug))) throw Error('getStaticProps: wrong parameters.')
+  // const [slug] = params.slug.reverse()
+
+  // console.time('Post - getStaticProps')
+
+  // const settings = await getAllSettings()
+
+  // let post: GhostPostOrPage | null = null
+  // let page: GhostPostOrPage | null = null
+  // let contactPage: ContactPage | null = null
+
+  // post = await getPostBySlug(slug)
+  // const isPost = !!post
+  // if (!isPost) {
+  //   page = await getPageBySlug(slug)
+  // } else if (post?.primary_tag) {
+  //   const primaryTag = await getTagBySlug(post?.primary_tag.slug)
+  //   post.primary_tag = primaryTag
+  // }
+
+  // // Add custom contact page
+  // let isContactPage = false
+  // if (processEnv.contactPage) {
+  //   contactPage = { ...defaultPage, ...customPage }
+  //   isContactPage = contactPage?.slug === slug
+  //   if (!isContactPage) contactPage = null
+
+  //   const url = contactPage?.feature_image
+  //   if (!contactPage?.featureImage && contactPage && url) {
+  //     const dimensions = await imageDimensions(url)
+  //     if (dimensions) contactPage.featureImage = { url, dimensions }
+  //   }
+  // }
+
+  // if (!post && !page && !isContactPage) {
+  //   return {
+  //     notFound: true,
+  //   }
+  // }
+
+  // let previewPosts: GhostPostsOrPages | never[] = []
+  // let prevPost: GhostPostOrPage | null = null
+  // let nextPost: GhostPostOrPage | null = null
+
+  // if (isContactPage) {
+  //   previewPosts = await getAllPosts({ limit: 3 })
+  // } else if (isPost && post?.id && post?.slug) {
+  //   const tagSlug = post?.primary_tag?.slug
+  //   previewPosts = (tagSlug && (await getPostsByTag(tagSlug, 3, post?.id))) || []
+
+  //   const postSlugs = await getAllPostSlugs()
+  //   const index = postSlugs.indexOf(post?.slug)
+  //   const prevSlug = index > 0 ? postSlugs[index - 1] : null
+  //   const nextSlug = index < postSlugs.length - 1 ? postSlugs[index + 1] : null
+
+  //   prevPost = (prevSlug && (await getPostBySlug(prevSlug))) || null
+  //   nextPost = (nextSlug && (await getPostBySlug(nextSlug))) || null
+  // }
+
+  // const siteUrl = settings.processEnv.siteUrl
+  // const imageUrl = (post || contactPage || page)?.feature_image || undefined
+  // const image = await seoImage({ siteUrl, imageUrl })
+
+  // const tags = (contactPage && contactPage.tags) || (page && page.tags) || undefined
+
+  // console.timeEnd('Post - getStaticProps')
+
+  // return {
+  //   props: {
+  //     cmsData: {
+  //       settings,
+  //       post,
+  //       page,
+  //       contactPage,
+  //       isPost,
+  //       seoImage: image,
+  //       previewPosts,
+  //       prevPost,
+  //       nextPost,
+  //       bodyClass: BodyClass({ isPost, page: contactPage || page || undefined, tags }),
+  //     },
+  //   },
+  //   ...(processEnv.isr.enable && { revalidate: processEnv.isr.revalidate }), // re-generate at most once every revalidate second
+  // }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  console.log('getStaticPaths');
   const { enable, maxNumberOfPosts, maxNumberOfPages } = processEnv.isr
+  
   const limitForPosts = (enable && { limit: maxNumberOfPosts }) || undefined
+  
   const limitForPages = (enable && { limit: maxNumberOfPages }) || undefined
-  const posts = await getAllPosts(limitForPosts)
-  const pages = await getAllPages(limitForPages)
-  const settings = await getAllSettings()
-  const { url: cmsUrl } = settings
+  
+  const posts:any = [];//await getAllPosts(limitForPosts)
+  const pages:any = [];//await getAllPages(limitForPages)
+  
+  // // const settings = await getAllSettings()
+  const settings = {
+    processEnv: {
+      siteUrl: 'http://localhost:3000',
+      platform: 'linux',
+      gaMeasurementId: '',
+      nextImages: {
+        feature: true,
+        inline: true,
+        quality: 1,
+        source: true
+      },
+      darkMode: {
+        defaultMode: 'dark' || 'light' || null,
+        overrideOS: true
+      }
+    },
+    secondary_navigation: [],
+    iconImage: {
 
+    },
+    logoImage: {
+      url: '',
+      dimensions: {
+        width: 100,
+        height: 100
+      }
+    },
+    coverImage: {},
+    url: ''
+  };
+  const { url: cmsUrl } = settings
+  
   const postRoutes = (posts as GhostPostsOrPages).map((post) => {
     const collectionPath = collections.getCollectionByNode(post)
     const { slug, url } = post
     return resolveUrl({ cmsUrl, collectionPath, slug, url })
   })
-
+  
   let contactPageRoute: string | null = null
   if (processEnv.contactPage) {
     const contactPage = { ...defaultPage, ...customPage }
     const { slug, url } = contactPage
     contactPageRoute = resolveUrl({ cmsUrl, slug, url })
   }
-
+  
   const customRoutes = (contactPageRoute && [contactPageRoute]) || []
   const pageRoutes = (pages as GhostPostsOrPages).map(({ slug, url }) => resolveUrl({ cmsUrl, slug, url }))
   const paths = [...postRoutes, ...pageRoutes, ...customRoutes]
-
   return {
     paths,
-    fallback: enable && 'blocking',
+    fallback: true
   }
+  // return {
+  //   paths,
+  //   fallback: enable && 'blocking',
+  // }
 }
